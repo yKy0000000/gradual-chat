@@ -19,6 +19,11 @@ export async function connectToDatabase(): Promise<Db> {
   await client.connect();
   database = client.db(databaseName);
 
+  await database.collection("conversationReadStates").createIndex(
+    { userId: 1, conversationId: 1 },
+    { unique: true },
+  );
+
   return database;
 }
 

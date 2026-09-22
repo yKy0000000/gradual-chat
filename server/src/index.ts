@@ -32,7 +32,9 @@ function createGraphQLContext(): GraphQLContext {
 
 async function startServer() {
   await connectToDatabase();
-  server.listen(port);
+  server.listen(port, () => {
+    console.log(`Chat server ready at http://localhost:${port}/graphql`);
+  });
 }
 
 startServer().catch((error: unknown) => {
