@@ -2,9 +2,27 @@ import { describe, expect, it } from "vitest";
 
 import {
   countUnreadMessages,
+  getMentionedUserIds,
   isReplyTargetValid,
+  normalizeMessageContent,
   shouldAdvanceReadCursor,
 } from "./messageRules.js";
+
+describe("Message input and mentions", () => {
+  it("rejects empty and oversized messages while trimming valid text", () => {
+    expect(normalizeMessageContent(" \n\t ")).toBeNull();
+    expect(normalizeMessageContent(" x ")).toBe("x");
+    expect(normalizeMessageContent("x".repeat(2001))).toBeNull();
+  });
+
+  it("recognizes complete demo-user mentions without matching email fragments", () => {
+    expect(getMentionedUserIds("Hi @User B, and @User A! @User B")).toEqual([
+      "demo-user-b",
+      "demo-user-a",
+    ]);
+    expect(getMentionedUserIds("mail@User B or @User C or @User Bob")).toEqual([]);
+  });
+});
 
 describe("Quote Reply validation", () => {
   it("accepts a reply target from the requested conversation", () => {

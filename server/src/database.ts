@@ -23,6 +23,11 @@ export async function connectToDatabase(): Promise<Db> {
     { userId: 1, conversationId: 1 },
     { unique: true },
   );
+  await database.collection("messages").createIndex({ id: 1 }, { unique: true });
+  await database.collection("hiddenMessages").createIndex(
+    { userId: 1, conversationId: 1, messageId: 1 },
+    { unique: true },
+  );
 
   return database;
 }

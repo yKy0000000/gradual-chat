@@ -8,8 +8,16 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+.local/
 dist
 dist-ssr
+coverage/
+tmp/
+temp/
+*.tmp
+*.temp
+*.bak
+*.tsbuildinfo
 *.local
 .env
 .env.*
@@ -20,6 +28,7 @@ dist-ssr
 !.vscode/extensions.json
 .idea
 .DS_Store
+Thumbs.db
 *.suo
 *.ntvs*
 *.njsproj

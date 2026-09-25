@@ -7,6 +7,24 @@ export type OrderedMessage = {
   senderId: string;
 };
 
+export const maxMessageLength = 2000;
+
+export function normalizeMessageContent(content: string): string | null {
+  const trimmed = content.trim();
+  return trimmed.length > 0 && trimmed.length <= maxMessageLength
+    ? trimmed
+    : null;
+}
+
+export function getMentionedUserIds(content: string): string[] {
+  const mentions = new Set<string>();
+  const pattern = /(^|\s)@User ([AB])(?=$|[\s.,!?;:])/g;
+  for (const match of content.matchAll(pattern)) {
+    mentions.add(match[2] === "A" ? "demo-user-a" : "demo-user-b");
+  }
+  return [...mentions];
+}
+
 export function isReplyTargetValid(
   replyTarget: unknown,
   conversationId: string,
